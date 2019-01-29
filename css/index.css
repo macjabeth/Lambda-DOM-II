@@ -127,6 +127,7 @@ table {
   border-spacing: 0;
 }
 * {
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 html {
@@ -135,6 +136,9 @@ html {
 html,
 body {
   font-family: 'Roboto', sans-serif;
+}
+body {
+  opacity: 0;
 }
 h1,
 h2,
@@ -180,7 +184,6 @@ img {
   background: #FFFFFF;
   border-bottom: 2px dashed #C0C0C0;
   position: fixed;
-  opacity: 0.8;
   z-index: 1;
 }
 .main-navigation .nav-container {

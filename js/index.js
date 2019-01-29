@@ -160,3 +160,6 @@ buttons.forEach(btn => {
 });
 
 // animations
+
+// fade in
+TweenLite.to(document.body, 1, { opacity: 1 });
