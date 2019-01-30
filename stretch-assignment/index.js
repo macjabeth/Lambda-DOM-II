@@ -23,4 +23,12 @@ blocks.forEach(block => {
   });
 
   block.addEventListener('mouseout', (event) => { handleX = subX; });
+
+  block.addEventListener('click', (event) => {
+    blocks.forEach(el => {
+      if (el !== event.target) el.style.order = 0;
+    });
+
+    event.target.style.order = -1;
+  });
 });
