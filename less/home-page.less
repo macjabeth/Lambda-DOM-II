@@ -1,5 +1,19 @@
 .home {
 
+  #arrowTop {
+    height: 9px;
+    width: 14px;
+    color: green;
+    position: fixed;
+    top: 100px;
+    left: 10px;
+    cursor: pointer;
+  }
+
+  #arrowTop::before {
+    content: '▲';
+  }
+
   .intro {
     padding: 90px 0 10px;
     border-bottom: 2px dashed @navigation-border;
@@ -16,12 +30,17 @@
 
   .content-section {
     margin: 30px 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
 
-   
-    
+
+
     .text-content {
       width: 48%;
       padding-right: 1%;
@@ -60,7 +79,9 @@
       padding-right: 0;
 
       @media @mobile {
-        order: 1;
+        -webkit-box-ordinal-group: 2;
+            -ms-flex-order: 1;
+                order: 1;
       }
     }
 
@@ -69,7 +90,9 @@
       padding-left: 0;
 
       @media @mobile {
-        order: 2;
+        -webkit-box-ordinal-group: 3;
+            -ms-flex-order: 2;
+                order: 2;
       }
     }
   }
@@ -90,11 +113,16 @@
   .content-pick {
     padding-top: 30px;
     border-top: 2px dashed @navigation-border;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: space-between;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
 
     @media @mobile {
-      flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
     }
 
     .destination {
@@ -105,10 +133,30 @@
         width: 80%;
         margin: 0 auto 30px;
       }
-      
+
       .btn {
-        .button-creator(200px, 45px, @button-bg, @white, 1.8rem);     
+        .button-creator(200px, 45px, @button-bg, @white, 1.8rem);
       }
+    }
+  }
+
+  .contact-form {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 15px;
+
+    input {
+      margin-right: 15px;
+      padding: 5px;
+    }
+
+    .form-submit > input {
+      padding: 5px 15px;
+      background: slategrey;
+      color: white;
+      border: 2px solid darkslategrey;
+      border-radius: 5px;
     }
   }
 }// home
