@@ -1,5 +1,12 @@
+const links = document.querySelectorAll('.nav > .nav-link');
+const images = document.getElementsByTagName('img');
+const paragraphs = document.getElementsByTagName('p');
+const buttons = document.querySelectorAll('div.btn');
+const textarea = document.getElementById('selector');
+const output = document.getElementById('output');
+
 // mouseover - add hover events to links
-document.querySelectorAll('.nav > .nav-link').forEach(link => {
+links.forEach(link => {
   link.addEventListener('mouseover', () => {
     link.style.textDecoration = 'underline';
   });
@@ -8,9 +15,6 @@ document.querySelectorAll('.nav > .nav-link').forEach(link => {
     link.style.textDecoration = '';
   });
 });
-
-const images = document.getElementsByTagName('img');
-const paragraphs = document.getElementsByTagName('p');
 
 // keydown - rotate paragraphs
 document.addEventListener('keydown', event => {
@@ -100,3 +104,39 @@ document.addEventListener('drop', function (event) {
     event.target.appendChild(dragged);
   }
 }, false);
+
+// load
+window.addEventListener('load', () => {
+  document.querySelector('h1').append(' is Ready');
+});
+
+// focus
+const colours = ['#A0C5CD', '#FECC4B', '#F8D8BE', '#D64045'];
+links.forEach(link => {
+  link.addEventListener('focus', () => {
+    const choice = Math.floor(Math.random() * colours.length);
+    link.style.color = colours[choice];
+  });
+});
+
+// resize
+window.addEventListener('resize', (event) => {
+  const { innerWidth } = event.target;
+  document.body.style.backgroundColor = innerWidth > 1000 ? colours[0]
+    : innerWidth > 800 ? colours[1]
+      : innerWidth > 600 ? colours[2] : colours[3];
+});
+
+// select
+output.style.display = 'block';
+textarea.addEventListener('select', event => {
+  const selection = event.target.value.substring(event.target.selectionStart, event.target.selectionEnd);
+  output.textContent = selection;
+});
+
+// dblclick
+buttons.forEach(btn => {
+  btn.addEventListener('dblclick', (event) => {
+    btn.style.boxShadow = '2px 2px 2px blue';
+  });
+});
