@@ -127,6 +127,15 @@ window.addEventListener('resize', (event) => {
       : innerWidth > 600 ? colours[2] : colours[3];
 });
 
+// scroll
+// arrowTop.addEventListener('click', () => {
+//   window.scrollTo(pageXOffset, 0);
+// });
+
+// window.addEventListener('scroll', () => {
+//   arrowTop.hidden = (pageYOffset < document.documentElement.clientHeight);
+// });
+
 // select
 output.style.display = 'block';
 textarea.addEventListener('select', event => {
