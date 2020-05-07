@@ -172,12 +172,18 @@ img {
   width: 100%;
   margin: 0 auto;
 }
+
 @media (max-width: 500px) {
   .container {
     width: 90%;
     margin: 0 5%;
   }
 }
+
+.dropzone {
+  padding: 10px;
+}
+
 .main-navigation {
   width: 100%;
   height: 90px;
@@ -186,6 +192,7 @@ img {
   position: fixed;
   z-index: 1;
 }
+
 .main-navigation .nav-container {
   height: 100%;
   display: -webkit-box;

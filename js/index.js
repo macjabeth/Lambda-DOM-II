@@ -1,165 +1,151 @@
-// selectors
-const navLinks = document.getElementsByClassName('nav-link');
-const windowDivs = document.querySelectorAll('div');
-const [ contactForm ] = document.getElementsByClassName('contact-form');
-const nameInput = document.getElementById('name');
-const emailInput = document.getElementById('email');
-const footerText = document.querySelector('footer p');
-const arrowTop = document.getElementById('arrowTop');
-const buttons = document.querySelectorAll('.btn');
+const links = document.querySelectorAll('.nav > .nav-link');
+const images = document.getElementsByTagName('img');
+const paragraphs = document.getElementsByTagName('p');
+const buttons = document.querySelectorAll('div.btn');
+const textarea = document.getElementById('selector');
+const output = document.getElementById('output');
 
-// nav hover decoration
-Array.from(navLinks).forEach(nav => {
-  nav.addEventListener('click', (event) => event.preventDefault());
-  nav.addEventListener('mouseover', ({ target }) => {
-    target.style.textDecoration = 'underline';
+// mouseover - add hover events to links
+links.forEach(link => {
+  link.addEventListener('mouseover', () => {
+    link.style.textDecoration = 'underline';
   });
-  nav.addEventListener('mouseout', ({ target }) => {
-    target.style.textDecoration = 'none';
+
+  link.addEventListener('mouseout', event => {
+    link.style.textDecoration = '';
   });
 });
 
-// arrow key rotation
-(() => {
-  let x = 0;
-  let y = 0;
-  document.addEventListener('keydown', (event) => {
-    let fired;
+// keydown - rotate paragraphs
+document.addEventListener('keydown', event => {
+  if (!['ArrowRight', 'ArrowLeft'].includes(event.key)) return;
 
-    switch (event.code) {
-      case 'ArrowUp':
-        x += 7;
-        fired = true;
-        break;
-      case 'ArrowDown':
-        x -= 7;
-        fired = true;
-        break;
-      case 'ArrowLeft':
-        y -= 7;
-        fired = true;
-        break;
-      case 'ArrowRight':
-        y += 7;
-        fired = true;
-        break;
-      default:
-        fired = false;
-        break;
-    }
+  const num = event.key === 'ArrowRight' ? 10 : -10;
+  const rotation = Number(paragraphs[0].style.transform.match(/-?\d+/));
+  const newRotation = rotation + num;
 
-    if (fired) {
-      windowDivs.forEach(node => {
-        node.style.transform = `rotateX(${x}deg) rotateY(${y}deg)`;
-        event.preventDefault();
-      });
-    }
-  });
-})();
-
-// draggable elements
-(() => {
-  let element;
-  /* events fired on the draggable target */
-  document.addEventListener('drag', function (event) {
-  });
-
-  document.addEventListener('dragstart', function (event) {
-    // store a ref. on the dragged elem
-    element = event.target;
-    // make it half transparent
-    event.target.style.opacity = 0.5;
-  });
-
-  document.addEventListener('dragend', function (event) {
-    // reset the transparency
-    event.target.style.opacity = '';
-  });
-
-  /* events fired on the drop targets */
-  document.addEventListener('dragover', function (event) {
-    // prevent default to allow drop
-    event.preventDefault();
-  });
-
-  document.addEventListener('dragenter', function (event) {
-    // highlight potential drop target when the draggable element enters it
-    event.target.style.background = 'purple';
-  });
-
-  document.addEventListener('dragleave', function (event) {
-    // reset background of potential drop target when the draggable element leaves it
-    event.target.style.background = '';
-  });
-
-  document.addEventListener('drop', function (event) {
-    // prevent default action (open as link for some elements)
-    event.preventDefault();
-    // move dragged elem to the selected drop target
-    event.target.style.background = '';
-    element.parentNode.removeChild(element);
-    event.target.appendChild(element);
-  });
-})();
-
-// for the lulz
-window.addEventListener('load', () => {
-  console.log('Keylogger injected.');
-});
-
-// focus borders
-window.addEventListener('focus', (event) => { document.body.style.opacity = '1'; });
-window.addEventListener('blur', (event) => { document.body.style.opacity = '0.5'; });
-
-// random colour on dblclick
-window.addEventListener('dblclick', (event) => {
-  if (event.target !== nameInput && event.target !== emailInput) {
-    let rgb = [Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), Math.floor(Math.random() * 256)];
-    document.body.style.background = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+  for (const paragraph of paragraphs) {
+    paragraph.style.transform = `rotate(${newRotation}deg)`;
   }
 });
 
-// echo form input
-contactForm.addEventListener('submit', (event) => {
-  const name = nameInput.value;
-  const email = emailInput.value;
+// wheel - scale images
+let scale = 1;
 
-  footerText.textContent = `Thanks ${name}! We'll be sure to send ${email} lots of emails. ;)`;
-
+const zoom = el => event => {
   event.preventDefault();
-});
 
-// selecting input text
-function logSelection (event) {
-  const selection = event.target.value.substring(event.target.selectionStart, event.target.selectionEnd);
-  footerText.textContent = `You selected: ${selection}`;
+  scale += event.deltaY * -0.01;
+
+  // Restrict scale
+  scale = Math.min(Math.max(.125, scale), 4);
+
+  // Apply scale transform
+  el.style.transform = `scale(${scale})`;
+};
+
+for (const image of images) {
+  image.addEventListener('wheel', zoom(image));
 }
 
-// handle scroll-to-top
-arrowTop.addEventListener('click', () => {
-  window.scrollTo(pageXOffset, 0);
-  // after scrollTo, there will be a "scroll" event, so the arrow will hide automatically
+// drag / drop
+document.querySelectorAll('div').forEach(div => {
+  div.classList.add('dropzone');
 });
 
-window.addEventListener('scroll', () => {
-  arrowTop.hidden = (pageYOffset < document.documentElement.clientHeight);
+let dragged;
+
+/* events fired on the draggable target */
+document.addEventListener('drag', function (event) {
+
+}, false);
+
+document.addEventListener('dragstart', function (event) {
+  // store a ref. on the dragged elem
+  dragged = event.target;
+  // make it half transparent
+  event.target.style.opacity = .5;
+}, false);
+
+document.addEventListener('dragend', function (event) {
+  // reset the transparency
+  event.target.style.opacity = '';
+}, false);
+
+/* events fired on the drop targets */
+document.addEventListener('dragover', function (event) {
+  // prevent default to allow drop
+  event.preventDefault();
+}, false);
+
+document.addEventListener('dragenter', function (event) {
+  // highlight potential drop target when the draggable element enters it
+  if (event.target.classList.contains('dropzone')) {
+    event.target.style.background = 'purple';
+  }
+
+}, false);
+
+document.addEventListener('dragleave', function (event) {
+  // reset background of potential drop target when the draggable element leaves it
+  if (event.target.classList.contains('dropzone')) {
+    event.target.style.background = '';
+  }
+
+}, false);
+
+document.addEventListener('drop', function (event) {
+  // prevent default action (open as link for some elements)
+  event.preventDefault();
+  // move dragged elem to the selected drop target
+  if (event.target.classList.contains('dropzone')) {
+    event.target.style.background = '';
+    dragged.parentNode.removeChild(dragged);
+    event.target.appendChild(dragged);
+  }
+}, false);
+
+// load
+window.addEventListener('load', () => {
+  document.querySelector('h1').append(' is Ready');
 });
 
-// prevent wheel scrolling
-window.addEventListener('wheel', (event) => event.preventDefault());
-
-nameInput.addEventListener('select', logSelection);
-emailInput.addEventListener('select', logSelection);
-
-// stop btn propogation
-buttons.forEach(btn => {
-  btn.addEventListener('dblclick', (event) => {
-    event.target.style.transform = 'scale(1.1)';
-    event.stopPropagation();
+// focus
+const colours = ['#A0C5CD', '#FECC4B', '#F8D8BE', '#D64045'];
+links.forEach(link => {
+  link.addEventListener('focus', () => {
+    const choice = Math.floor(Math.random() * colours.length);
+    link.style.color = colours[choice];
   });
 });
 
-// animations
+// resize
+window.addEventListener('resize', (event) => {
+  const { innerWidth } = event.target;
+  document.body.style.backgroundColor = innerWidth > 1000 ? colours[0]
+    : innerWidth > 800 ? colours[1]
+      : innerWidth > 600 ? colours[2] : colours[3];
+});
 
-// fade in
-TweenLite.to(document.body, 1, { opacity: 1 });
+// scroll
+// arrowTop.addEventListener('click', () => {
+//   window.scrollTo(pageXOffset, 0);
+// });
+
+// window.addEventListener('scroll', () => {
+//   arrowTop.hidden = (pageYOffset < document.documentElement.clientHeight);
+// });
+
+// select
+output.style.display = 'block';
+textarea.addEventListener('select', event => {
+  const selection = event.target.value.substring(event.target.selectionStart, event.target.selectionEnd);
+  output.textContent = selection;
+});
+
+// dblclick
+buttons.forEach(btn => {
+  btn.addEventListener('dblclick', (event) => {
+    btn.style.boxShadow = '2px 2px 2px blue';
+  });
+});
